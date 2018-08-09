@@ -3,6 +3,7 @@
 ## overall
 * tf generates a `dot` format file showing layout
 * `dot` format file uses dot to generate diagram
+* example command: `terraform graph | dot -Tsvg > graph.svg`
 
 ## icons
 * simple icons page: https://aws.amazon.com/architecture/icons/
