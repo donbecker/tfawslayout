@@ -1,9 +1,29 @@
 # TF AWS Layout Generator
 
-## overall
-* tf generates a `dot` format file showing layout
-* `dot` format file uses dot to generate diagram
-* example command: `terraform graph | dot -Tsvg > graph.svg`
+## General Overview
+* Utility to draw better graphs of Terraform infrastructure on AWS 
+* Written in Go
+* Distributed as a terraform module 
+* Runs on Windows, Mac and Linux
+
+## Add to your project
+* Add the module reference to your terraform `main.tf` (latest version on github):  
+`module "tfawslayout" {`  
+`source = github.com/donbecker/tfawslayout.git`  
+`}`  
+
+* Add the module reference to your terraform `main.tf` (specific version on github):  
+`module "tfawslayout" {`  
+`source = github.com/donbecker/tfawslayout.git?ref=v1.0.0`  
+`}`  
+
+* Add the module reference to your terraform `main.tf` (from your s3 bucket):  
+`module "tfawslayout" {`  
+`source = "yours3bucket.s3-us-east-1.amazonaws.com/donbecker.tfawslayout-v1.0.0.tar.gz"`  
+`}` 
+
+## SVG
+* vscode: extensions: SVG Viewer v1.4.4 by cssho
 
 ## icons
 * simple icons page: https://aws.amazon.com/architecture/icons/
@@ -55,5 +75,35 @@
 
 * EC2 Instance: Orange box EC2 icon, Name in black text centered left to right and below box.
 
+# Script notes
 
+* The bulk of Terraform is written in Go. So it makes sense to do the same.
+* Initial thought for distribution was to use a terraform module, but that would require user to manually invoke the embedded Go script. 
+* Another option is writing a custom Terraform provider (plugin)
+    * https://www.terraform.io/docs/extend/writing-custom-providers.html
+    * Unfortunately it looks like retrieval of plugins is a bit of a mess
+        * https://github.com/hashicorp/terraform/issues/15252
+* So thinking we do this with a go script, distributed via a module.
+    * User adds module ref
+    * User runs `terraform init`
+        * Downloads module, and untars
+    * ??? where do we find the module under `.terraform` directory ???
+    * User runs `graphme.go` script
+* `terraform graph` command script
+    * https://github.com/hashicorp/terraform/blob/master/command/graph.go
 
+* Scripts
+    * `graphprocess.go`
+        * Updates the DOT file created by `terraform graph` command
+        * Different rulesets used for different intended diagram types
+        * Rulesets passed in as command line options or via defaults file
+        * Sets the icon used on the nodes
+        * Removes items from DOT file that are not desired
+    * `graphme.go`
+        * Wrapper script
+        * Runs `terraform graph`, calls `graphprocess.go` to process file, then calls `graphviz` to render the graph
+            * example command: `terraform graph | dot -Tsvg > graph.svg`
+            * example command with new graph: `terraform graph | graphprocess.go | dot -Tsvg > graph.svg`
+
+* Go Distribution
+    * Binary is in the terraform module
