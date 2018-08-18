@@ -81,6 +81,8 @@
 * Initial thought for distribution was to use a terraform module, but that would require user to manually invoke the embedded Go script. 
 * Another option is writing a custom Terraform provider (plugin)
     * https://www.terraform.io/docs/extend/writing-custom-providers.html
+    * https://www.terraform.io/docs/plugins/basics.html
+    * To test your plugin, the easiest method is to copy your terraform binary to $GOPATH/bin and ensure that this copy is the one being used for testing. terraform init will search for plugins within the same directory as the terraform binary, and $GOPATH/bin is the directory into which go install will place the plugin executable.
     * Unfortunately it looks like retrieval of plugins is a bit of a mess
         * https://github.com/hashicorp/terraform/issues/15252
 * So thinking we do this with a go script, distributed via a module.
