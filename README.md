@@ -23,6 +23,7 @@
         * ..\Security Identity & Compliance\SecurityIdentityCompliance_AWSWAF.png
     * Route Table
     * Subnet
+        * Missing
     * Security Group
     * EC2 Instance
         * ..\Compute\Compute_AmazonEC2_instance.png
@@ -39,3 +40,20 @@
         * ..\Compute\Compute_AmazonVPC_VPCpeering.png
     * Router
         * ..\Networking & Content Delivery\NetworkingContentDelivery_AmazonVPC_router.png
+
+## Layout Notes
+
+* Region: Outermost box, solid black line, transparent background, "AWS" logo in upper left, rounded corners, usually says "Region" at bottom. Not sure how multi-region diagrams look, initially only support one region.
+
+* VPC: Second most outermost box, solid black line, transparent background, "VPC" logo in upper left, rounded corners.
+
+* VPC Peering: Double-line joining the VPC boxes with VPC Peering icon in middle of line
+
+* Availability Zone: Orange dashed line box with light semi-transparent orange background. Name (ex. 'Availability Zone 1') in orange centered left to right, above bottom line of AZ box. If stacked vertically, left-right edges extend outside VPC box. If stacked horizontally, top-bottom edges extend outside VPC box. 
+
+* Subnet: Entirely within VPC box, lock icon in upper left, solid black line, transparent background. Public subnets have light green background, Private subnets have a light blue background. Subnet name and CIDR centered left to right, above bottom line.
+
+* EC2 Instance: Orange box EC2 icon, Name in black text centered left to right and below box.
+
+
+
