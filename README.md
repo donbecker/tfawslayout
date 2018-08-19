@@ -1,9 +1,9 @@
 # TF AWS Layout Generator
 
 ## General Overview
-* Utility to draw better graphs of Terraform infrastructure on AWS 
-* Written in Go
-* Distributed as a terraform module 
+* Generate AWS-Style graphs of Terraform infrastructure on AWS
+* Written in Go, distributed as a terraform module
+* Simple commandline to export a graph
 * Runs on Windows, Mac and Linux
 
 ## Add to your project
@@ -22,10 +22,14 @@
 `source = "yours3bucket.s3-us-east-1.amazonaws.com/donbecker.tfawslayout-v1.0.0.tar.gz"`  
 `}` 
 
+## Create your graph
+* (from your terraform folder)
+* `tfgraph .`
+
 ## SVG
 * vscode: extensions: SVG Viewer v1.4.4 by cssho
 
-## icons
+## Icons
 * simple icons page: https://aws.amazon.com/architecture/icons/
 * direct link: https://s3-us-west-2.amazonaws.com/awswebanddesign/Architecture+Icons/AWS-Arch-Icon-Sets_Feb-18/PNG%2C+SVG%2C+EPS_18.02.22.zip
 * unzip
@@ -93,6 +97,11 @@
     * User runs `graphme.go` script
 * `terraform graph` command script
     * https://github.com/hashicorp/terraform/blob/master/command/graph.go
+* Yet another option is using the `local-exec` provisioner
+    * https://www.terraform.io/docs/provisioners/local-exec.html
+    * "The local-exec provisioner invokes a local executable after a resource is created. This invokes a process on the machine running Terraform, not on the resource."
+    * So can we use this to call our Go script? 
+
 
 * Scripts
     * `graphprocess.go`
@@ -101,11 +110,22 @@
         * Rulesets passed in as command line options or via defaults file
         * Sets the icon used on the nodes
         * Removes items from DOT file that are not desired
+        * Looks like there is a DOT file parser for Go already
+            * https://github.com/awalterschulze/gographviz
+            * Example using this for Grails/Groovy
+                * https://github.com/ilikeorangutans/grails-service-visualizer
+                * https://ilikeorangutans.github.io/2014/05/03/using-golang-and-graphviz-to-visualize-complex-grails-applications/
+
     * `graphme.go`
         * Wrapper script
         * Runs `terraform graph`, calls `graphprocess.go` to process file, then calls `graphviz` to render the graph
             * example command: `terraform graph | dot -Tsvg > graph.svg`
             * example command with new graph: `terraform graph | graphprocess.go | dot -Tsvg > graph.svg`
 
-* Go Distribution
+* Go Distribution notes
     * Binary is in the terraform module
+
+* Module packge notes
+    * tfgraph go binary
+    * aws icons
+    * graphviz ?
