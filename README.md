@@ -95,8 +95,13 @@
         * Downloads module, and untars
     * ??? where do we find the module under `.terraform` directory ???
     * User runs `graphme.go` script
-* `terraform graph` command script
-    * https://github.com/hashicorp/terraform/blob/master/command/graph.go
+* `terraform graph` scripts
+    * located the rest of the terraform graph scripts
+        * https://github.com/hashicorp/terraform/blob/master/command/graph.go
+        * https://github.com/hashicorp/terraform/blob/master/terraform/graph.go
+        * https://github.com/hashicorp/terraform/blob/master/dag/graph.go
+
+
 * Yet another option is using the `local-exec` provisioner
     * https://www.terraform.io/docs/provisioners/local-exec.html
     * "The local-exec provisioner invokes a local executable after a resource is created. This invokes a process on the machine running Terraform, not on the resource."
